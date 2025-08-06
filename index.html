@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>윤수 살해 프로그램</title>
+    <title>아레나 테라포밍</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         .person-list { margin: 10px 0; }
@@ -10,11 +10,12 @@
     </style>
 </head>
 <body>
-    <h1>윤수 살해 프로그램</h1>
+    <h1>아레나 테라포밍</h1>
     <input type="text" id="nameInput" placeholder="이름 입력">
     <button onclick="addPerson()">추가</button>
     <div id="personList" class="person-list"></div>
     <button onclick="makePairs()">짝짓기</button>
+    <button onclick="copyResult()">결과 복사</button>
     <pre id="result"></pre>
 
     <script>
@@ -102,12 +103,31 @@
 
             let resultText = pairs.join("\n");
             if (leftovers) resultText += `\n\n남는 사람: ${leftovers}`;
+
             document.getElementById("result").textContent = resultText;
+
+            // 자동 복사
+            navigator.clipboard.writeText(resultText).then(() => {
+                console.log("결과가 클립보드에 자동 복사됨");
+            }).catch(err => {
+                console.error("자동 복사 실패:", err);
+            });
+        }
+
+        function copyResult() {
+            const resultText = document.getElementById("result").textContent;
+            if (!resultText.trim()) {
+                alert("복사할 결과가 없습니다.");
+                return;
+            }
+            navigator.clipboard.writeText(resultText).then(() => {
+                alert("결과가 클립보드에 복사되었습니다!");
+            }).catch(err => {
+                alert("복사 실패: " + err);
+            });
         }
 
         updateList();
     </script>
 </body>
 </html>
-
-
