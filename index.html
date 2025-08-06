@@ -6,7 +6,8 @@
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #f7f8fa;
+            background: url('지브리풍윤수.png') no-repeat center center fixed;
+            background-size: cover;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -15,9 +16,9 @@
             padding: 20px;
         }
         .container {
-            background: #fff;
+            background: rgba(255, 255, 255, 0.9);
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             width: 400px;
             padding: 20px;
         }
@@ -66,6 +67,7 @@
         .actions {
             display: flex;
             justify-content: space-between;
+            gap: 10px;
             margin-bottom: 15px;
         }
         .result-area {
@@ -95,13 +97,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>아레나 테랖호밍</h1>
+        <h1>아레나 테라포밍</h1>
         <div class="input-area">
             <input type="text" id="nameInput" placeholder="이름 입력">
             <button onclick="addPerson()">추가</button>
         </div>
         <div id="personList" class="person-list"></div>
         <div class="actions">
+            <button onclick="deleteSelected()">선택 삭제</button>
             <button onclick="makePairs()">짝짓기</button>
             <button onclick="copyResult()">결과 복사</button>
         </div>
@@ -166,12 +169,6 @@
                 label.appendChild(document.createTextNode(" " + person));
                 listDiv.appendChild(label);
             });
-
-            const deleteButton = document.createElement("button");
-            deleteButton.textContent = "선택 삭제";
-            deleteButton.style.marginTop = "10px";
-            deleteButton.onclick = deleteSelected;
-            listDiv.appendChild(deleteButton);
         }
 
         function makePairs() {
