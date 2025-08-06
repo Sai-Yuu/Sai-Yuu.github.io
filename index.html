@@ -2,24 +2,123 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>아레나 테라포밍</title>
+    <title>아레나 테라포밍밍</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .person-list { margin: 10px 0; }
-        button { margin: 5px; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f7f8fa;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 400px;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 8px 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .person-list {
+            background: #f1f3f6;
+            border-radius: 8px;
+            padding: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        .person-list label {
+            display: block;
+            margin: 4px 0;
+            font-size: 14px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .result-area {
+            background: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            font-size: 14px;
+            white-space: pre-wrap;
+            min-height: 100px;
+        }
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .toast.show {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
-    <h1>아레나 테라포밍</h1>
-    <input type="text" id="nameInput" placeholder="이름 입력">
-    <button onclick="addPerson()">추가</button>
-    <div id="personList" class="person-list"></div>
-    <button onclick="makePairs()">짝짓기</button>
-    <button onclick="copyResult()">결과 복사</button>
-    <pre id="result"></pre>
+    <div class="container">
+        <h1>아레나 테랖호밍</h1>
+        <div class="input-area">
+            <input type="text" id="nameInput" placeholder="이름 입력">
+            <button onclick="addPerson()">추가</button>
+        </div>
+        <div id="personList" class="person-list"></div>
+        <div class="actions">
+            <button onclick="makePairs()">짝짓기</button>
+            <button onclick="copyResult()">결과 복사</button>
+        </div>
+        <div id="result" class="result-area"></div>
+    </div>
+
+    <div id="toast" class="toast">결과가 클립보드에 복사됨</div>
 
     <script>
         let people = JSON.parse(localStorage.getItem("people")) || [];
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.textContent = message;
+            toast.classList.add("show");
+            setTimeout(() => toast.classList.remove("show"), 2000);
+        }
 
         function savePeople() {
             localStorage.setItem("people", JSON.stringify(people));
@@ -66,11 +165,11 @@
                 label.appendChild(checkbox);
                 label.appendChild(document.createTextNode(" " + person));
                 listDiv.appendChild(label);
-                listDiv.appendChild(document.createElement("br"));
             });
 
             const deleteButton = document.createElement("button");
             deleteButton.textContent = "선택 삭제";
+            deleteButton.style.marginTop = "10px";
             deleteButton.onclick = deleteSelected;
             listDiv.appendChild(deleteButton);
         }
@@ -87,7 +186,6 @@
                 return;
             }
 
-            // 랜덤 섞기
             selectedPeople.sort(() => Math.random() - 0.5);
 
             let pairs = [];
@@ -106,11 +204,10 @@
 
             document.getElementById("result").textContent = resultText;
 
-            // 자동 복사
             navigator.clipboard.writeText(resultText).then(() => {
-                console.log("결과가 클립보드에 자동 복사됨");
-            }).catch(err => {
-                console.error("자동 복사 실패:", err);
+                showToast("결과가 클립보드에 자동 복사됨");
+            }).catch(() => {
+                console.error("자동 복사 실패");
             });
         }
 
@@ -121,7 +218,7 @@
                 return;
             }
             navigator.clipboard.writeText(resultText).then(() => {
-                alert("결과가 클립보드에 복사되었습니다!");
+                showToast("결과가 클립보드에 복사됨");
             }).catch(err => {
                 alert("복사 실패: " + err);
             });
