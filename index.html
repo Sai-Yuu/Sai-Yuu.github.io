@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>짝짓기 프로그램</title>
+    <title>아레나 테라포밍</title>
     <style>
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
@@ -20,14 +20,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             width: 400px;
             padding: 20px;
-        }
-        .banner img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            margin-bottom: 15px;
         }
         h1 {
             text-align: center;
@@ -58,6 +50,12 @@
         }
         button:hover {
             background-color: #45a049;
+        }
+        .start-button {
+            background-color: #ff5722;
+        }
+        .start-button:hover {
+            background-color: #e64a19;
         }
         .person-list {
             background: #f1f3f6;
@@ -105,10 +103,7 @@
 </head>
 <body>
     <div class="container">
-        <div class="banner">
-            <img src="https://drive.google.com/uc?export=view&id=1tspMYbWP6bvPlqqDi3vuFrHYZXD4zII4" alt="배너 이미지">
-        </div>
-        <h1>짝짓기 프로그램</h1>
+        <h1>아레나 테라포밍</h1>
         <div class="input-area">
             <input type="text" id="nameInput" placeholder="이름 입력">
             <button onclick="addPerson()">추가</button>
@@ -116,7 +111,7 @@
         <div id="personList" class="person-list"></div>
         <div class="actions">
             <button onclick="deleteSelected()">선택 삭제</button>
-            <button onclick="makePairs()">짝짓기</button>
+            <button class="start-button" onclick="makePairs()">시작</button>
             <button onclick="copyResult()">결과 복사</button>
         </div>
         <div id="result" class="result-area"></div>
@@ -207,8 +202,8 @@
                 }
             }
 
-            let resultText = pairs.join("\n");
-            if (leftovers) resultText += `\n\n남는 사람: ${leftovers}`;
+            let resultText = pairs.join("\\n");
+            if (leftovers) resultText += `\\n\\n남는 사람: ${leftovers}`;
 
             document.getElementById("result").textContent = resultText;
 
