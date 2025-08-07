@@ -1,239 +1,268 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>아레나 테라포밍</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background-color: #f7f8fa;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 400px;
-            padding: 20px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-top: 0;
-        }
-        .input-area {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        input[type="text"] {
-            flex: 1;
-            padding: 8px 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        button {
-            padding: 8px 14px;
-            border: none;
-            border-radius: 6px;
-            background-color: #4CAF50;
-            color: #fff;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .start-button {
-            background-color: #2196F3;
-        }
-        .start-button:hover {
-            background-color: #1976D2;
-        }
-        .delete-button {
-            background-color: #f44336;
-        }
-        .delete-button:hover {
-            background-color: #d32f2f;
-        }
-        .person-list {
-            background: #f1f3f6;
-            border-radius: 8px;
-            padding: 10px;
-            max-height: 150px;
-            overflow-y: auto;
-            margin-bottom: 15px;
-        }
-        .person-list label {
-            display: block;
-            margin: 4px 0;
-            font-size: 14px;
-        }
-        .actions {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .result-area {
-            background: #fafafa;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-            font-size: 14px;
-            white-space: pre-wrap;
-            min-height: 100px;
-        }
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #333;
-            color: #fff;
-            padding: 10px 15px;
-            border-radius: 6px;
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        .toast.show {
-            opacity: 1;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>아레나 테라포밍</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background-color: #f7f8fa;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        height: 100vh;
+        margin: 0;
+        padding: 20px;
+    }
+    .container {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        width: 400px;
+        padding: 20px;
+        animation: fadeIn 0.6s ease-out;
+    }
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-top: 0;
+    }
+    .input-area {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    input[type="text"] {
+        flex: 1;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+    button {
+        padding: 8px 14px;
+        border: none;
+        border-radius: 6px;
+        background-color: #4CAF50;
+        color: #fff;
+        cursor: pointer;
+        font-size: 14px;
+        transition: 0.2s;
+    }
+    button:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+    .start-button {
+        background-color: #2196F3;
+    }
+    .start-button:hover {
+        background-color: #1976D2;
+        animation: shake 0.4s;
+    }
+    .delete-button {
+        background-color: #f44336;
+    }
+    .delete-button:hover {
+        background-color: #d32f2f;
+    }
+    .person-list {
+        background: #f1f3f6;
+        border-radius: 8px;
+        padding: 10px;
+        max-height: 150px;
+        overflow-y: auto;
+        margin-bottom: 15px;
+    }
+    .person-list label {
+        display: block;
+        margin: 4px 0;
+        font-size: 14px;
+        animation: slideIn 0.3s ease-out;
+    }
+    .actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    .result-area {
+        background: #fafafa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 14px;
+        white-space: pre-wrap;
+        min-height: 100px;
+        opacity: 0;
+        transition: opacity 0.5s ease-in;
+    }
+    .result-show {
+        opacity: 1;
+    }
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #333;
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 6px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.4s, transform 0.4s;
+    }
+    .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    /* 애니메이션 키프레임 */
+    @keyframes fadeIn {
+        from {opacity: 0; transform: translateY(10px);}
+        to {opacity: 1; transform: translateY(0);}
+    }
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-4px); }
+        50% { transform: translateX(4px); }
+        75% { transform: translateX(-4px); }
+        100% { transform: translateX(0); }
+    }
+    @keyframes slideIn {
+        from {opacity: 0; transform: translateX(-10px);}
+        to {opacity: 1; transform: translateX(0);}
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>아레나 테라포밍</h1>
-        <div class="input-area">
-            <input type="text" id="nameInput" placeholder="이름 입력">
-            <button onclick="addPerson()">추가</button>
-        </div>
-        <div id="personList" class="person-list"></div>
-        <div class="actions">
-            <button class="delete-button" onclick="deleteSelected()">선택 삭제</button>
-            <button class="start-button" onclick="makePairs()">시작</button>
-            <button onclick="copyResult()">결과 복사</button>
-        </div>
-        <div id="result" class="result-area"></div>
+<div class="container">
+    <h1>아레나 테라포밍</h1>
+    <div class="input-area">
+        <input type="text" id="nameInput" placeholder="이름 입력">
+        <button onclick="addPerson()">추가</button>
     </div>
+    <div id="personList" class="person-list"></div>
+    <div class="actions">
+        <button class="delete-button" onclick="deleteSelected()">선택 삭제</button>
+        <button class="start-button" onclick="makePairs()">시작</button>
+        <button onclick="copyResult()">결과 복사</button>
+    </div>
+    <div id="result" class="result-area"></div>
+</div>
 
-    <div id="toast" class="toast">결과가 클립보드에 복사됨</div>
+<div id="toast" class="toast">결과가 클립보드에 복사됨</div>
 
-    <script>
-        let people = JSON.parse(localStorage.getItem("people")) || [];
+<script>
+    let people = JSON.parse(localStorage.getItem("people")) || [];
 
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            toast.textContent = message;
-            toast.classList.add("show");
-            setTimeout(() => toast.classList.remove("show"), 2000);
-        }
+    function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 2000);
+    }
 
-        function savePeople() {
-            localStorage.setItem("people", JSON.stringify(people));
-        }
+    function savePeople() {
+        localStorage.setItem("people", JSON.stringify(people));
+    }
 
-        function addPerson() {
-            const name = document.getElementById("nameInput").value.trim();
-            if (name && !people.includes(name)) {
-                people.push(name);
-                savePeople();
-                updateList();
-                document.getElementById("nameInput").value = "";
-            } else {
-                alert("이름이 비었거나 이미 존재합니다.");
-            }
-        }
-
-        function deleteSelected() {
-            const checkboxes = document.querySelectorAll(".person-checkbox");
-            const selectedToDelete = [];
-            checkboxes.forEach(cb => {
-                if (cb.checked) selectedToDelete.push(cb.value);
-            });
-
-            if (selectedToDelete.length === 0) {
-                alert("삭제할 사람을 선택하세요.");
-                return;
-            }
-
-            people = people.filter(p => !selectedToDelete.includes(p));
+    function addPerson() {
+        const name = document.getElementById("nameInput").value.trim();
+        if (name && !people.includes(name)) {
+            people.push(name);
             savePeople();
             updateList();
+            document.getElementById("nameInput").value = "";
+        } else {
+            alert("이름이 비었거나 이미 존재합니다.");
+        }
+    }
+
+    function deleteSelected() {
+        const checkboxes = document.querySelectorAll(".person-checkbox");
+        const selectedToDelete = [];
+        checkboxes.forEach(cb => {
+            if (cb.checked) selectedToDelete.push(cb.value);
+        });
+
+        if (selectedToDelete.length === 0) {
+            alert("삭제할 사람을 선택하세요.");
+            return;
         }
 
-        function updateList() {
-            const listDiv = document.getElementById("personList");
-            listDiv.innerHTML = "";
-            people.forEach(person => {
-                const label = document.createElement("label");
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkbox.value = person;
-                checkbox.className = "person-checkbox";
-                label.appendChild(checkbox);
-                label.appendChild(document.createTextNode(" " + person));
-                listDiv.appendChild(label);
-            });
-        }
-
-        function makePairs() {
-            const checkboxes = document.querySelectorAll(".person-checkbox");
-            const selectedPeople = [];
-            checkboxes.forEach(cb => {
-                if (cb.checked) selectedPeople.push(cb.value);
-            });
-
-            if (selectedPeople.length < 2) {
-                alert("최소 2명 이상 선택하세요.");
-                return;
-            }
-
-            selectedPeople.sort(() => Math.random() - 0.5);
-
-            let pairs = [];
-            let leftovers = null;
-
-            for (let i = 0; i < selectedPeople.length; i += 2) {
-                if (i + 1 < selectedPeople.length) {
-                    pairs.push(`${selectedPeople[i]} - ${selectedPeople[i + 1]}`);
-                } else {
-                    leftovers = selectedPeople[i];
-                }
-            }
-
-            let resultText = pairs.join("\n");
-            if (leftovers) resultText += `\n\n남는 사람: ${leftovers}`;
-
-            document.getElementById("result").textContent = resultText;
-
-            navigator.clipboard.writeText(resultText).then(() => {
-                showToast("결과가 클립보드에 자동 복사됨");
-            }).catch(() => {
-                console.error("자동 복사 실패");
-            });
-        }
-
-        function copyResult() {
-            const resultText = document.getElementById("result").textContent;
-            if (!resultText.trim()) {
-                alert("복사할 결과가 없습니다.");
-                return;
-            }
-            navigator.clipboard.writeText(resultText).then(() => {
-                showToast("결과가 클립보드에 복사됨");
-            }).catch(err => {
-                alert("복사 실패: " + err);
-            });
-        }
-
+        people = people.filter(p => !selectedToDelete.includes(p));
+        savePeople();
         updateList();
-    </script>
+    }
+
+    function updateList() {
+        const listDiv = document.getElementById("personList");
+        listDiv.innerHTML = "";
+        people.forEach(person => {
+            const label = document.createElement("label");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.value = person;
+            checkbox.className = "person-checkbox";
+            label.appendChild(checkbox);
+            label.appendChild(document.createTextNode(" " + person));
+            listDiv.appendChild(label);
+        });
+    }
+
+    function makePairs() {
+        const checkboxes = document.querySelectorAll(".person-checkbox");
+        const selectedPeople = [];
+        checkboxes.forEach(cb => {
+            if (cb.checked) selectedPeople.push(cb.value);
+        });
+
+        if (selectedPeople.length < 2) {
+            alert("최소 2명 이상 선택하세요.");
+            return;
+        }
+
+        selectedPeople.sort(() => Math.random() - 0.5);
+
+        let pairs = [];
+        let leftovers = null;
+
+        for (let i = 0; i < selectedPeople.length; i += 2) {
+            if (i + 1 < selectedPeople.length) {
+                pairs.push(`${selectedPeople[i]} - ${selectedPeople[i + 1]}`);
+            } else {
+                leftovers = selectedPeople[i];
+            }
+        }
+
+        let resultText = pairs.join("\n");
+        if (leftovers) resultText += `\n\n남는 사람: ${leftovers}`;
+
+        const resultDiv = document.getElementById("result");
+        resultDiv.textContent = resultText;
+        resultDiv.classList.add("result-show");
+
+        navigator.clipboard.writeText(resultText).then(() => {
+            showToast("결과가 클립보드에 자동 복사됨");
+        }).catch(() => {
+            console.error("자동 복사 실패");
+        });
+    }
+
+    function copyResult() {
+        const resultText = document.getElementById("result").textContent;
+        if (!resultText.trim()) {
+            alert("복사할 결과가 없습니다.");
+            return;
+        }
+        navigator.clipboard.writeText(resultText).then(() => {
+            showToast("결과가 클립보드에 복사됨");
+        }).catch(err => {
+            alert("복사 실패: " + err);
+        });
+    }
+
+    updateList();
+</script>
 </body>
 </html>
